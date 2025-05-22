@@ -1,17 +1,24 @@
 package me.ghosty0656.glib;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
-public final class GLib extends JavaPlugin {
+public final class GLib extends GPlugin {
 
     @Override
-    public void onEnable() {
-        // Plugin startup logic
-
+    public void onPluginLoad() {
+        // Plugin load logic
     }
 
     @Override
-    public void onDisable() {
-        // Plugin shutdown logic
+    public void onPluginEnable() {
+        // Plugin enable logic
+    }
+
+    @Override
+    public void onWorldsLoaded() {
+        // Post worlds loaded logic
+    }
+
+    @Override
+    public void onPluginDisable() {
+        // Plugin disable logic
     }
 }

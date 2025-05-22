@@ -1,0 +1,9 @@
+name: GLib
+version: '${plugin_version}'
+main: me.ghosty0656.glib.GLib
+api-version: '${minecraft_version}'
+prefix: GLib
+load: STARTUP
+authors: [ Ghosty0656 ]
+description: Central libary for Ghosty0656s plugins
+website: https://github.com/Ghosty0656/GLib

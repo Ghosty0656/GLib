@@ -11,7 +11,6 @@ import net.william278.uniform.annotations.Syntax;
 
 @CommandNode(
         value = "glib",
-        description = "",
         permission = @PermissionNode(
                 value = "glib.command",
                 defaultValue = Permission.Default.IF_OP

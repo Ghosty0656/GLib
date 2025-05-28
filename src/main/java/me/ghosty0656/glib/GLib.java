@@ -13,11 +13,12 @@ public final class GLib extends GPlugin<Config, Messages> {
     @Override
     public void onPluginLoad() {
         // Plugin load logic
+        registerCommand(new GLibCommand());
     }
 
     @Override
     public void onPluginEnable() {
-        commands.register(new GLibCommand());
+        // Plugin enable logic
     }
 
     @Override

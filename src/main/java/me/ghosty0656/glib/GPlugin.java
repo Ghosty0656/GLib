@@ -4,11 +4,12 @@ import de.exlll.configlib.ConfigLib;
 import de.exlll.configlib.Serializer;
 import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurationStore;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import me.ghosty0656.glib.configuration.Config;
 import me.ghosty0656.glib.configuration.Messages;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.william278.uniform.paper.PaperUniform;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,7 +34,7 @@ public abstract class GPlugin<C extends Config, M extends Messages> extends Java
     private M messages;
     private final Class<M> messagesClass;
 
-    protected PaperUniform commands;
+    private final Set<Command> commands = new HashSet<>();
 
     private final Set<String> expectedWorlds = new HashSet<>();
     private final Set<String> loadedWorlds = new HashSet<>();
@@ -91,7 +92,12 @@ public abstract class GPlugin<C extends Config, M extends Messages> extends Java
 
     @Override
     public final void onEnable() {
-        commands = PaperUniform.getInstance(this);
+        getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
+            Commands registry = event.registrar();
+            for (Command command : commands) {
+                command.register(registry);
+            }
+        });
 
         Bukkit.getPluginManager().registerEvents(this, this);
 
@@ -121,6 +127,10 @@ public abstract class GPlugin<C extends Config, M extends Messages> extends Java
     @Override
     public final void onDisable() {
         onPluginDisable();
+    }
+
+    protected void registerCommand(Command command) {
+        commands.add(command);
     }
 
     public void saveDefaultConfig() {

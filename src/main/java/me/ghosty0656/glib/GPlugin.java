@@ -53,34 +53,38 @@ public abstract class GPlugin<C extends Config, M extends Messages> extends Java
 
     @Override
     public final void onLoad() {
-        configFile = new File(getDataFolder(), "config.yml").toPath();
-        messagesFile = new File(getDataFolder(), "messages.yml").toPath();
+        try {
+            configFile = new File(getDataFolder(), "config.yml").toPath();
+            YamlConfigurationProperties.Builder<?> configPropBuilder = ConfigLib.BUKKIT_DEFAULT_PROPERTIES.toBuilder();
+            configPropBuilder.createParentDirectories(true);
+            configPropBuilder.addSerializer(Component.class, new ComponentSerializer());
+            configStore = new YamlConfigurationStore<>(configClass, configPropBuilder.build());
 
-        YamlConfigurationProperties.Builder<?> configPropBuilder = ConfigLib.BUKKIT_DEFAULT_PROPERTIES.toBuilder();
-        configPropBuilder.createParentDirectories(true);
-        configPropBuilder.addSerializer(Component.class, new ComponentSerializer());
-        configStore = new YamlConfigurationStore<>(configClass, configPropBuilder.build());
-
-        YamlConfigurationProperties.Builder<?> messagePropBuilder = ConfigLib.BUKKIT_DEFAULT_PROPERTIES.toBuilder();
-        messagePropBuilder.createParentDirectories(true);
-        messagePropBuilder.addSerializer(Component.class, new ComponentSerializer());
-        messagePropBuilder.header(
-                """
-                ===== MiniMessage =====
-                This plugin uses MiniMessage to format its messages.
-                You can find the format here: https://docs.advntr.dev/minimessage/format.html
-                
-                ===== Placeholders =====
-                Placeholders are encased in angle brackets (<>).
-                All available placeholders are listed above sections and messages.
-                A placeholder above a section works for all messages and subsections in that section.
-                
-                Global placeholders:
-                PLAYER_DISPLAY - The display name of the player receiving the message. Includes the prefix, suffix, color and style.
-                PLAYER_NAME ---- The raw name of the player receiving the message. No prefix, suffix, color or style.
-                """
-        );
-        messagesStore = new YamlConfigurationStore<>(messagesClass, messagePropBuilder.build());
+            messagesFile = new File(getDataFolder(), "messages.yml").toPath();
+            YamlConfigurationProperties.Builder<?> messagePropBuilder = ConfigLib.BUKKIT_DEFAULT_PROPERTIES.toBuilder();
+            messagePropBuilder.createParentDirectories(true);
+            messagePropBuilder.addSerializer(Component.class, new ComponentSerializer());
+            messagePropBuilder.header(
+                    """
+                    ===== MiniMessage =====
+                    This plugin uses MiniMessage to format its messages.
+                    You can find the format here: https://docs.advntr.dev/minimessage/format.html
+                    
+                    ===== Placeholders =====
+                    Placeholders are encased in angle brackets (<>).
+                    All available placeholders are listed above sections and messages.
+                    A placeholder above a section works for all messages and subsections in that section.
+                    
+                    Global placeholders:
+                    PLAYER_DISPLAY - The display name of the player receiving the message. Includes the prefix, suffix, color and style.
+                    PLAYER_NAME ---- The raw name of the player receiving the message. No prefix, suffix, color or style.
+                    """
+            );
+            messagesStore = new YamlConfigurationStore<>(messagesClass, messagePropBuilder.build());
+        } catch (Exception ignored) {
+            // Ignore
+            // Sometimes throws exceptions for empty config classes which is intentional if it happens and should not throw an error
+        }
 
         onPluginLoad();
     }

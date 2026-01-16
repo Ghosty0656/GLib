@@ -17,3 +17,9 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+tasks.named('processResources') {
+    filesMatching('manifest.json') {
+        expand(project.properties)
+    }
+}

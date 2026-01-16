@@ -1,0 +1,20 @@
+{
+	"Group": "Ghosty0656",
+	"Name": "GLib",
+	"Version": "${version}",
+	"Description": "Shared functionality for all of Ghosty's Hytale mods and plugins",
+	"Authors": [
+		{
+			"Name": "Ghosty0656",
+			"Email": "",
+			"Url": "https://github.com/Ghosty0656"
+		}
+	],
+	"Website": "https://github.com/Ghosty0656",
+	"ServerVersion": "*",
+	"Dependencies": {},
+	"OptionalDependencies": {},
+	"DisabledByDefault": false,
+	"IncludesAssetPack": true,
+	"Main": "me.ghosty0656.Main"
+}

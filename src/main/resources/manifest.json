@@ -12,7 +12,9 @@
 	],
 	"Website": "https://github.com/Ghosty0656",
 	"ServerVersion": "*",
-	"Dependencies": {},
+	"Dependencies": {
+		"Zoltus:TinyMessage": "*"
+	},
 	"OptionalDependencies": {},
 	"DisabledByDefault": false,
 	"IncludesAssetPack": true,
